@@ -94,7 +94,7 @@ pipeline {
         stage('OCI Image BnP') {
           steps {
             container('kaniko') {
-              sh '/kaniko/executor -f `pwd`/Dockerfile -c `pwd` --insecure --skip-tls-verify --cache=true --destination=docker.io/zavrelmi/dsodemo'
+              sh '/kaniko/executor -f `pwd`/Dockerfile -c `pwd` --insecure --skip-tls-verify --cache=true --destination=docker.io/zavrelmi/dso-demo'
               }
           }
         }
@@ -105,14 +105,14 @@ pipeline {
         stage('Image Linting') {
           steps {
             container('docker-tools') {
-              sh 'dockle docker.io/zavrelmi/dsodemo'
+              sh 'dockle docker.io/zavrelmi/dso-demo'
             }
          }
       }
     stage('Image Scan') {
       steps {
         container('docker-tools') {
-          sh 'trivy image --exit-code 1  zavrelmi/dsodemo'
+          sh 'trivy image --exit-code 1  zavrelmi/dso-demo'
         }
       }
     }
